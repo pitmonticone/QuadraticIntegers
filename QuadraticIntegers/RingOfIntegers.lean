@@ -64,12 +64,23 @@ lemma n_spec (hz : IsIntegral ℤ z) : n hz = a ^ 2 - d * b ^ 2 := (norm_int hz)
 lemma four_n (hz : IsIntegral ℤ z) : 4 * n hz = (2 * a)^2 - d * (2 * b) ^ 2 := by
   sorry
 
-lemma two_b_int (hz : IsIntegral ℤ z) : ∃ (B : ℤ), B = 2 * b := by
+lemma two_b_int (hz : IsIntegral ℤ z) : ∃ (B₂ : ℤ), B₂ = 2 * b := by
   sorry
 
-def B (hz : IsIntegral ℤ z) := (two_b_int hz).choose
+def B₂ (hz : IsIntegral ℤ z) := (two_b_int hz).choose
 
-lemma B_spec (hz : IsIntegral ℤ z) : B hz = 2 * b := (two_b_int hz).choose_spec
+lemma B₂_spec (hz : IsIntegral ℤ z) : B₂ hz = 2 * b := (two_b_int hz).choose_spec
+
+lemma b_int_of_a_int (hz : IsIntegral ℤ z) (ha : ∃ (A : ℤ), A = a) : ∃ (B : ℤ), B = b := by
+  sorry
+
+def B (hz : IsIntegral ℤ z) (ha : ∃ (A : ℤ), A = a) := (b_int_of_a_int hz ha).choose
+
+lemma B_spec (hz : IsIntegral ℤ z) (ha : ∃ (A : ℤ), A = a) : B hz ha = b :=
+  (b_int_of_a_int hz ha).choose_spec
+
+lemma a_not_int (hz : IsIntegral ℤ z) (ha : ¬∃ (A : ℤ), A = a) : d ≡ 1 [ZMOD 4] := by
+  sorry
 
 end integrality
 

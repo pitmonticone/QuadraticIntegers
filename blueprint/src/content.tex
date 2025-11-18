@@ -157,42 +157,43 @@ We now suppose that $z \in \mathcal{O}_K$.
   we know that $d(2b)^2 \in \Z$. Since $d$ is squarefree, we conclude that $2b \in \Z$ by Lemma \ref{squarefree_mul}.
 \end{proof}
 
-\begin{definition} \label{B_spec}
+\begin{definition} \label{B₂_spec}
   \leanok
-  \lean{QuadraticInteger.B_spec}
+  \lean{QuadraticInteger.B₂_spec}
   \uses{two_b_int}
-  We write $B$ to denote $2b$ as an integer. Mathematically we have $B = 2b$.
+  We write $B_2$ to denote $2b$ as an integer. Mathematically we have $B_2 = 2b$.
 \end{definition}
 
-\begin{lemma} \label{divisible}
-We have that $(2a)^2 - d(2b)^2$. is an integer divisible by $4$.
-\end{lemma}
-\begin{proof}
-  Clear since $(2a)^2 - d(2b)^2 = 4(a^2-db^2)$ and $a^2-db^2 \in \Z$ by Lemma \ref{norm_int}.
-\end{proof}
-
-\begin{lemma} \label{easy_incl_d_1}
-  If $d \equiv 1 \bmod{4}$ then $\frac{1+\sqrt{d}}{2} \in \mathcal{O}_K$.
-\end{lemma}
-\begin{proof}
-  Write $d = 4a + 1$, with $a \in \Z$. Then $\frac{1+\sqrt{d}}{2}$ is a root of $x^2 - x - a \in \Z[x]$.
-\end{proof}
-
 \begin{lemma} \label{b_int_of_a_int}
+  \leanok
+  \lean{QuadraticInteger.b_int_of_a_int}
+  \uses{four_n, squarefree_mul}
   If $a \in \Z$ then $b \in \Z$.
 \end{lemma}
 \begin{proof}
-  By Lemma \ref{divisible} and our assumption, both $(2a)^2$ and $(2a)^2 - d(2b)^2$ are integers divisible by $4$,
-  so the same holds for $d(2b)^2$. In particular $db^2 \in \Z$ and $b \in \Z$ since $d$ is squarefree.
+  By Lemma \ref{four_n} and our assumption, both $(2a)^2$ and $(2a)^2 - d(2b)^2$ are integers divisible by $4$,
+  so the same holds for $d(2b)^2$. In particular $db^2 \in \Z$ and $b \in \Z$ by Lemma \ref{squarefree_mul} since $d$ is squarefree.
 \end{proof}
 
+\begin{definition} \label{B_spec}
+  \leanok
+  \lean{QuadraticInteger.B_spec}
+  \uses{b_int_of_a_int}
+  If $a$ is an integer, we write $B$ to denote $b$ as an integer. Mathematically we have $B = b$.
+\end{definition}
+
 \begin{lemma} \label{a_not_int}
+    \leanok
+  \lean{QuadraticInteger.a_not_int}
+  \uses{four_n, two_b_int}
   If $a \not\in \Z$ then $d \equiv 1 \bmod{4}$.
 \end{lemma}
 \begin{proof}
-  We have that $2a$, that is an integer, must be odd. By Lemmas \ref{divisible} and \ref{two_b_int}, we have
+  We have that $2a$, that is an integer, must be odd. By Lemmas \ref{four_n} and \ref{two_b_int}, we have
   $(2a)^2 \equiv d(2b)^2 \bmod{4}$, so $2b$ must be odd and $d \equiv 1 \bmod{4}$ as required.
 \end{proof}
+
+\subsection{The case $d \not \equiv 1 \bmod{4}$}
 
 \begin{theorem} \label{d_2_or_3}
   Assume that $d \equiv 2 \bmod{4}$ or $d \equiv 3 \bmod{4}$. Then
@@ -201,17 +202,26 @@ We have that $(2a)^2 - d(2b)^2$. is an integer divisible by $4$.
   \]
 \end{theorem}
 \begin{proof}
-  By Lemma \ref{easy_incl} we know that $\Z[\sqrt(d)] \subseteq \mathcal{O}_K$. Let $t = a + b \sqrt{d} \in \mathcal{O}_K$, with
+  By Lemma \ref{easy_incl} we know that $\Z[\sqrt(d)] \subseteq \mathcal{O}_K$. Let $z = a + b \sqrt{d} \in \mathcal{O}_K$, with
   $a, b \in \Q$. By Lemma \ref{a_not_int} we have that $a \in \Z$ (since by Lemma \ref{d_congr} we cannot have
-  $d \equiv 1 \bmod{4}$), and so by Lemma \ref{b_int_of_a_int} we have $b \in \Z$, so $t \in \Z[\sqrt{d}]$.
+  $d \equiv 1 \bmod{4}$), and so by Lemma \ref{b_int_of_a_int} we have $b \in \Z$, so $z \in \Z[\sqrt{d}]$.
+\end{proof}
+
+\subsection{The case $d \equiv 1 \bmod{4}$}
+
+\begin{lemma} \label{easy_incl_d_1}
+  If $d \equiv 1 \bmod{4}$ then $\frac{1+\sqrt{d}}{2} \in \mathcal{O}_K$.
+\end{lemma}
+\begin{proof}
+  Write $d = 4a + 1$, with $a \in \Z$. Then $\frac{1+\sqrt{d}}{2}$ is a root of $X^2 - X - a \in \Z[X]$.
 \end{proof}
 
 \begin{lemma} \label{d_1_int}
-  Assume that $d \equiv 1 \bmod{4}$ and take $t = a + b \sqrt{d} \in \mathcal{O}_K$ with $a, b \in \Q$.
+  Assume that $d \equiv 1 \bmod{4}$ and take $z = a + b \sqrt{d} \in \mathcal{O}_K$ with $a, b \in \Q$.
   If $a \in \Z$ then $t \in \Z\left[ \frac{1+\sqrt{d}}{2} \right]$.
 \end{lemma}
 \begin{proof}
-  By Lemma \ref{b_int_of_a_int} we have that $b \in \Z$ and so $t \in \Z[\sqrt{d}] \subseteq \Z\left[ \frac{1+\sqrt{d}}{2} \right]$.
+  By Lemma \ref{b_int_of_a_int} we have that $b \in \Z$ and so $z \in \Z[\sqrt{d}] \subseteq \Z\left[ \frac{1+\sqrt{d}}{2} \right]$.
 \end{proof}
 
 \begin{theorem} \label{d_1}
@@ -222,14 +232,14 @@ We have that $(2a)^2 - d(2b)^2$. is an integer divisible by $4$.
 \end{theorem}
 \begin{proof}
   By Lemma \ref{easy_incl_d_1} we know that $\Z\left[ \frac{1+\sqrt{d}}{2} \right] \subseteq \mathcal{O}_K$.
-  Let $t = a + b \sqrt{d} \in \mathcal{O_K}$, with $a, b \in \Q$.
+  Let $z = a + b \sqrt{d} \in \mathcal{O_K}$, with $a, b \in \Q$.
   \begin{itemize}
     \item If $ a \in \Z$ we conclude by Lemma \ref{d_1_int}.
     \item If $a \notin \Z$, let us consider
   \[
-  t' = t - \frac{1+\sqrt{d}}{2} = a - \frac{1}{2} + \left( b - \frac{1}{2} \right) \sqrt{2} \in \mathcal{O}_K
+  z' = z - \frac{1+\sqrt{d}}{2} = a - \frac{1}{2} + \left( b - \frac{1}{2} \right) \sqrt{2} \in \mathcal{O}_K
   \]
   Since $2a \in \Z$ and $a \notin \Z$, we have that $a - \frac{1}{2} \in \Z$, so by Lemma \ref{d_1_int},
-  we have that $t' \in \Z\left[ \frac{1+\sqrt{d}}{2} \right]$ and so $t \in \Z\left[ \frac{1+\sqrt{d}}{2} \right]$.
+  we have that $z' \in \Z\left[ \frac{1+\sqrt{d}}{2} \right]$ and so $z \in \Z\left[ \frac{1+\sqrt{d}}{2} \right]$.
   \end{itemize}
 \end{proof}
