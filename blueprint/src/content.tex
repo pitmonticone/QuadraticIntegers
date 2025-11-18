@@ -136,6 +136,34 @@ We now suppose that $z \in \mathcal{O}_K$.
   Obvious.
 \end{proof}
 
+\begin{lemma} \label{squarefree_mul}
+  \leanok
+  \lean{squarefree_mul}
+  Let $n$ be a squarefree integer and let $r$ be a rational such that $b r^2$ is an integer. Then $r$ is
+  itself an integer.
+\end{lemma}
+\begin{proof}
+  Easy.
+\end{proof}
+
+\begin{lemma} \label{two_b_int}
+  \leanok
+  \lean{QuadraticInteger.two_b_int}
+  We have that $2b \in \Z$.
+  \uses{four_n, squarefree_mul}
+\end{lemma}
+\begin{proof}
+  By Lemma \ref{four_n}, $(2a)^2 - d(2b)^2$ is an integer and so, by Lemma \ref{trace_int},
+  we know that $d(2b)^2 \in \Z$. Since $d$ is squarefree, we conclude that $2b \in \Z$ by Lemma \ref{squarefree_mul}.
+\end{proof}
+
+\begin{definition} \label{B_spec}
+  \leanok
+  \lean{QuadraticInteger.B_spec}
+  \uses{two_b_int}
+  We write $B$ to denote $2b$ as an integer. Mathematically we have $B = 2b$.
+\end{definition}
+
 \begin{lemma} \label{divisible}
 We have that $(2a)^2 - d(2b)^2$. is an integer divisible by $4$.
 \end{lemma}
@@ -150,14 +178,6 @@ We have that $(2a)^2 - d(2b)^2$. is an integer divisible by $4$.
   Write $d = 4a + 1$, with $a \in \Z$. Then $\frac{1+\sqrt{d}}{2}$ is a root of $x^2 - x - a \in \Z[x]$.
 \end{proof}
 
-\begin{lemma} \label{2b_int}
-  We have that $2b \in \Z$.
-\end{lemma}
-\begin{proof}
-  By Lemma \ref{divisible}, $(2a)^2 - d(2b)^2$ is an integer and so, by Lemma \ref{trace_int},
-  we know that $d(2b)^2 \in \Z$. Since $d$ is squarefree, we conclude that $2b \in \Z$.
-\end{proof}
-
 \begin{lemma} \label{b_int_of_a_int}
   If $a \in \Z$ then $b \in \Z$.
 \end{lemma}
@@ -170,7 +190,7 @@ We have that $(2a)^2 - d(2b)^2$. is an integer divisible by $4$.
   If $a \not\in \Z$ then $d \equiv 1 \bmod{4}$.
 \end{lemma}
 \begin{proof}
-  We have that $2a$, that is an integer, must be odd. By Lemmas \ref{divisible} and \ref{2b_int}, we have
+  We have that $2a$, that is an integer, must be odd. By Lemmas \ref{divisible} and \ref{two_b_int}, we have
   $(2a)^2 \equiv d(2b)^2 \bmod{4}$, so $2b$ must be odd and $d \equiv 1 \bmod{4}$ as required.
 \end{proof}
 

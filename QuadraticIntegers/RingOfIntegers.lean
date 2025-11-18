@@ -64,6 +64,13 @@ lemma n_spec (hz : IsIntegral ℤ z) : n hz = a ^ 2 - d * b ^ 2 := (norm_int hz)
 lemma four_n (hz : IsIntegral ℤ z) : 4 * n hz = (2 * a)^2 - d * (2 * b) ^ 2 := by
   sorry
 
+lemma two_b_int (hz : IsIntegral ℤ z) : ∃ (B : ℤ), B = 2 * b := by
+  sorry
+
+def B (hz : IsIntegral ℤ z) := (two_b_int hz).choose
+
+lemma B_spec (hz : IsIntegral ℤ z) : B hz = 2 * b := (two_b_int hz).choose_spec
+
 end integrality
 
 end trace_and_norm
