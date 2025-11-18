@@ -5,11 +5,13 @@ import Mathlib.NumberTheory.NumberField.Basic
 
 import QuadraticIntegers.Mathlib.QuadraticAlgebra
 
+suppress_compilation
+
 namespace QuadraticInteger
 
 open QuadraticAlgebra NumberField Set Polynomial Algebra
 
-variable (d : ℤ) [NeZero d] [d.natAbs.AtLeastTwo] [Fact (Squarefree d)]
+variable {d : ℤ} [NeZero d] [d.natAbs.AtLeastTwo] [Fact (Squarefree d)]
 
 local notation3 "K" => QuadraticAlgebra ℚ d 0
 
@@ -29,19 +31,37 @@ section computation
 
 variable {a b : ℚ}
 
-local notation3 "t" => a + b • (ω : K)
+local notation3 "z" => a + b • (ω : K)
 
-lemma rational_iff : t ∈ range (algebraMap ℚ K) ↔ b = 0 := by
+lemma rational_iff : z ∈ range (algebraMap ℚ K) ↔ b = 0 := by
   sorry
 
-lemma minpoly (hb : b  ≠ 0) : minpoly ℚ t = X ^ 2 - C (2 * a) * X + C (a ^ 2 - d * b ^ 2) := by
+lemma minpoly (hb : b  ≠ 0) : minpoly ℚ z = X ^ 2 - C (2 * a) * X + C (a ^ 2 - d * b ^ 2) := by
   sorry
 
-lemma trace : trace ℚ K t = 2 * a := by
+lemma trace : trace ℚ K z = 2 * a := by
   sorry
 
-lemma norm : norm ℚ t = a ^ 2 - d * b ^ 2 := by
+lemma norm : norm ℚ z = a ^ 2 - d * b ^ 2 := by
   sorry
+
+section RingOfIntegers
+
+lemma trace_int (hz : IsIntegral ℤ z) : ∃ (t : ℤ), t = 2 * a := by
+  sorry
+
+def t (hz : IsIntegral ℤ z) := (trace_int hz).choose
+
+lemma t_spec (hz : IsIntegral ℤ z) : t hz = 2 * a := (trace_int hz).choose_spec
+
+lemma norm_int (hz : IsIntegral ℤ z) : ∃ (n : ℤ), n = a ^ 2 - d * b ^ 2 := by
+  sorry
+
+def n (hz : IsIntegral ℤ z) := (norm_int hz).choose
+
+lemma n_spec (hz : IsIntegral ℤ z) : n hz = a ^ 2 - d * b ^ 2 := (norm_int hz).choose_spec
+
+end RingOfIntegers
 
 end computation
 
