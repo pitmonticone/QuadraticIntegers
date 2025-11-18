@@ -41,7 +41,7 @@ We now write $R$ for $\Z[\sqrt{d}]$: we have that $K$ is an $R$-algebra in the o
 \end{proof}
 Note that, in Lean, the above proposition technically says that that the image in $K$ of $\sqrt{d}$ \emph{as element of $R$} is integral.
 
-\section{Computations}
+\section{Trace and norm}
 We fix in this section two rational numbers $a, b \in \Q$ and we write $z$ for
 $a + b \sqrt{d} \in K$.
 
@@ -89,7 +89,7 @@ $a + b \sqrt{d} \in K$.
   If $b = 0$ then $z = a \in \Q$ and the norm is $a^2$ since $[K : \Q] = 2$. Otherwise this is clear by Lemma \ref{minpoly}.
 \end{proof}
 
-\subsection{Ring of Integers}
+\subsection{Integrality}
 We now suppose that $z \in \mathcal{O}_K$.
 
 \begin{lemma} \label{trace_int}
@@ -126,11 +126,14 @@ We now suppose that $z \in \mathcal{O}_K$.
   We write $n$ (for norm) to denote $a^2-db^2$ as an integer. Mathematically we have $n = a^2-db^2$.
 \end{definition}
 
-\begin{lemma} \label{easy_incl_d_1}
-  If $d \equiv 1 \bmod{4}$ then $\frac{1+\sqrt{d}}{2} \in \mathcal{O}_K$.
+\begin{lemma} \label{four_n}
+  We have that $4n = (2a)^2 - d(2b)^2$.
+  \leanok
+  \lean{QuadraticInteger.four_n}
+  \uses{n_spec}
 \end{lemma}
 \begin{proof}
-  Write $d = 4a + 1$, with $a \in \Z$. Then $\frac{1+\sqrt{d}}{2}$ is a root of $x^2 - x - a \in \Z[x]$.
+  Obvious.
 \end{proof}
 
 \begin{lemma} \label{divisible}
@@ -138,6 +141,13 @@ We have that $(2a)^2 - d(2b)^2$. is an integer divisible by $4$.
 \end{lemma}
 \begin{proof}
   Clear since $(2a)^2 - d(2b)^2 = 4(a^2-db^2)$ and $a^2-db^2 \in \Z$ by Lemma \ref{norm_int}.
+\end{proof}
+
+\begin{lemma} \label{easy_incl_d_1}
+  If $d \equiv 1 \bmod{4}$ then $\frac{1+\sqrt{d}}{2} \in \mathcal{O}_K$.
+\end{lemma}
+\begin{proof}
+  Write $d = 4a + 1$, with $a \in \Z$. Then $\frac{1+\sqrt{d}}{2}$ is a root of $x^2 - x - a \in \Z[x]$.
 \end{proof}
 
 \begin{lemma} \label{2b_int}

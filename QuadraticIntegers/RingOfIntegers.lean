@@ -27,7 +27,7 @@ local notation3 "R" => QuadraticAlgebra ℤ d 0
 lemma easy_incl : IsIntegral ℤ (algebraMap R K ω) := by
   sorry
 
-section computation
+section trace_and_norm
 
 variable {a b : ℚ}
 
@@ -45,7 +45,7 @@ lemma trace : trace ℚ K z = 2 * a := by
 lemma norm : norm ℚ z = a ^ 2 - d * b ^ 2 := by
   sorry
 
-section RingOfIntegers
+section integrality
 
 lemma trace_int (hz : IsIntegral ℤ z) : ∃ (t : ℤ), t = 2 * a := by
   sorry
@@ -61,8 +61,11 @@ def n (hz : IsIntegral ℤ z) := (norm_int hz).choose
 
 lemma n_spec (hz : IsIntegral ℤ z) : n hz = a ^ 2 - d * b ^ 2 := (norm_int hz).choose_spec
 
-end RingOfIntegers
+lemma four_n (hz : IsIntegral ℤ z) : 4 * n hz = (2 * a)^2 - d * (2 * b) ^ 2 := by
+  sorry
 
-end computation
+end integrality
+
+end trace_and_norm
 
 end QuadraticInteger
