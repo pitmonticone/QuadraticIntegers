@@ -13,4 +13,8 @@ instance (a b : ℤ) : Algebra (QuadraticAlgebra ℤ a b) (QuadraticAlgebra S a 
   (lift ⟨ω, by simpa [Int.cast_smul_eq_zsmul] using
     omega_mul_omega_eq_add (R := S) (a := a) (b := b)⟩).toRingHom.toAlgebra
 
+instance (a : ℤ) : Algebra (QuadraticAlgebra ℤ a 0) (QuadraticAlgebra S a 0) :=
+  (lift ⟨ω, by simpa [Int.cast_smul_eq_zsmul] using
+    omega_mul_omega_eq_add (R := S) (a := a) (b := 0)⟩).toRingHom.toAlgebra
+
 end QuadraticAlgebra
