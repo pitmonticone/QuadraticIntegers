@@ -30,7 +30,7 @@ is a field.
   If $d \equiv 1 \bmod{4}$ then $\frac{1+\sqrt{d}}{2} \in \mathcal{O}_K$.
 \end{lemma}
 \begin{proof}
-  Write $d = 4a + 1$, with $a \in \Z$. Then $\sqrt{d}$ is a root of $x^2 - x - a \in \Z[x]$.
+  Write $d = 4a + 1$, with $a \in \Z$. Then $\frac{1+\sqrt{d}}{2}$ is a root of $x^2 - x - a \in \Z[x]$.
 \end{proof}
 
 Let $t \in K$, so $t = a + b \sqrt{d}$ for some $a, b \in \Q$. We assume that $t \notin \Q$, i.e. that
@@ -89,7 +89,7 @@ We have that $(2a)^2 - d(2b)^2$. is an integer divisible by $4$.
   We have that $2b \in \Z$.
 \end{lemma}
 \begin{proof}
-  By Lemma \ref{divisible} $(2a)^2 - d(2b)^2$ is an integer and so, by Lemma \ref{trace_int},
+  By Lemma \ref{divisible}, $(2a)^2 - d(2b)^2$ is an integer and so, by Lemma \ref{trace_int},
   we know that $d(2b)^2 \in \Z$. Since $d$ is squarefree, we conclude that $2b \in \Z$.
 \end{proof}
 
@@ -105,7 +105,7 @@ We have that $(2a)^2 - d(2b)^2$. is an integer divisible by $4$.
   If $a \not\in \Z$ then $d \equiv 1 \bmod{4}$.
 \end{lemma}
 \begin{proof}
-  We have $2a$, that is an integer, must be odd. By Lemmas \ref{divisible} and \ref{2b_int}, we have
+  We have that $2a$, that is an integer, must be odd. By Lemmas \ref{divisible} and \ref{2b_int}, we have
   $(2a)^2 \equiv d(2b)^2 \bmod{4}$, so $2b$ must be odd and $d \equiv 1 \bmod{4}$ as required.
 \end{proof}
 
@@ -116,13 +116,13 @@ We have that $(2a)^2 - d(2b)^2$. is an integer divisible by $4$.
   \]
 \end{theorem}
 \begin{proof}
-  By Lemma \ref{easy_incl} we know that $\Z[\sqrt(d)] \subseteq \mathcal{O}_K$. Let $t = a + b \sqrt{d} \in \mathcal{O_K}$, with
+  By Lemma \ref{easy_incl} we know that $\Z[\sqrt(d)] \subseteq \mathcal{O}_K$. Let $t = a + b \sqrt{d} \in \mathcal{O}_K$, with
   $a, b \in \Q$. By Lemma \ref{a_not_int} we have that $a \in \Z$ (since by Lemma \ref{d_congr} we cannot have
-  $d \equiv 1 \bmod{4}$), and so by Lemma \ref{b_int_of_a_int} we have $b \in \Z$ so $t \in \Z[\sqrt{d}]$.
+  $d \equiv 1 \bmod{4}$), and so by Lemma \ref{b_int_of_a_int} we have $b \in \Z$, so $t \in \Z[\sqrt{d}]$.
 \end{proof}
 
 \begin{lemma} \label{d_1_int}
-  Assume that $d \equiv 1 \bmod{4}$ and take $t = a + b \sqrt{d} \in \mathcal{O}_K$ with $a, b \in Q$.
+  Assume that $d \equiv 1 \bmod{4}$ and take $t = a + b \sqrt{d} \in \mathcal{O}_K$ with $a, b \in \Q$.
   If $a \in \Z$ then $t \in \Z\left[ \frac{1+\sqrt{d}}{2} \right]$.
 \end{lemma}
 \begin{proof}
