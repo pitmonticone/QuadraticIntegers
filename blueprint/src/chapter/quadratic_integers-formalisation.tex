@@ -67,7 +67,7 @@ $a + b \sqrt{d} \in K$.
   We have that the trace of $z$ is $2a$.
 \end{lemma}
 \begin{proof}
-  \uses{minpoly}
+  \uses{minpoly, field}
   If $b = 0$ then $z = a \in \Q$ and the trace is $2a$ since $[K : \Q] = 2$. Otherwise this is clear by Lemma \ref{minpoly}.
 \end{proof}
 
@@ -77,7 +77,7 @@ $a + b \sqrt{d} \in K$.
   We have that the norm of $z$ is $a^2-db^2$.
 \end{lemma}
 \begin{proof}
-  \uses{minpoly}
+  \uses{minpoly, field}
   If $b = 0$ then $z = a \in \Q$ and the norm is $a^2$ since $[K : \Q] = 2$. Otherwise this is clear by Lemma \ref{minpoly}.
 \end{proof}
 
@@ -185,7 +185,7 @@ We now suppose that $z \in \mathcal{O}_K$.
   $(2a)^2 = d(2b)^2 \bmod{4}$, so $2b$ must be odd and $d = 1 \bmod{4}$ as required.
 \end{proof}
 
-\subsection{The case $d \neq 1 \bmod{4}$}
+\subsection{The case \texorpdfstring{$d \neq 1 \bmod{4}$}{d not 1 mod 4}}
 
 \begin{theorem} \label{d_2_or_3}
   Assume that $d = 2 \bmod{4}$ or $d = 3 \bmod{4}$. Then
@@ -199,7 +199,7 @@ We now suppose that $z \in \mathcal{O}_K$.
   $d = 1 \bmod{4}$), and so by Lemma \ref{b_int_of_a_int} we have $b \in \Z$, so $z \in \Z[\sqrt{d}]$.
 \end{proof}
 
-\subsection{The case $d = 1 \bmod{4}$}
+\subsection{The case \texorpdfstring{$d = 1 \bmod{4}$}{d = 1 mod 4}}
 
 \begin{lemma} \label{easy_incl_d_1}
   If $d = 1 \bmod{4}$ then $\frac{1+\sqrt{d}}{2} \in \mathcal{O}_K$.
