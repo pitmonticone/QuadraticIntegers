@@ -36,7 +36,7 @@ local notation3 "z" => a + b • (ω : K)
 lemma rational_iff : z ∈ range (algebraMap ℚ K) ↔ b = 0 := by
   sorry
 
-lemma minpoly (hb : b  ≠ 0) : minpoly ℚ z = X ^ 2 - C (2 * a) * X + C (a ^ 2 - d * b ^ 2) := by
+lemma minpoly (hb : b ≠ 0) : minpoly ℚ z = X ^ 2 - C (2 * a) * X + C (a ^ 2 - d * b ^ 2) := by
   sorry
 
 lemma trace : trace ℚ K z = 2 * a := by
