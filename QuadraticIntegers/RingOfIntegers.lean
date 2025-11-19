@@ -19,7 +19,7 @@ instance field : Fact (∀ (r : ℚ), r ^2 ≠ d + 0 * r) := by
   constructor
   sorry
 
-lemma d_congr : d ≡ 1 [ZMOD 4] ∨ d ≡ 3 [ZMOD 4] := by
+lemma d_congr : d ≡ 1 [ZMOD 4] ∨ d ≡ 2 [ZMOD 4] ∨ d ≡ 3 [ZMOD 4] := by
   sorry
 
 local notation3 "R" => QuadraticAlgebra ℤ d 0
@@ -85,5 +85,12 @@ lemma a_not_int (hz : IsIntegral ℤ z) (ha : ¬∃ (A : ℤ), A = a) : d ≡ 1 
 end integrality
 
 end trace_and_norm
+
+section d_2_3
+
+theorem d_2_or_3 (hd : d ≡ 2 [ZMOD 4] ∨ d ≡ 3 [ZMOD 4]) : IsIntegralClosure ℤ R K := by
+  sorry
+
+end d_2_3
 
 end QuadraticInteger
