@@ -15,14 +15,14 @@ variable {d : ℤ} [NeZero d] [d.natAbs.AtLeastTwo] [Fact (Squarefree d)]
 
 local notation3 "K" => QuadraticAlgebra ℚ d 0
 
+local notation3 "R" => QuadraticAlgebra ℤ d 0
+
 instance field : Fact (∀ (r : ℚ), r ^2 ≠ d + 0 * r) := by
   constructor
   sorry
 
 lemma d_congr : d ≡ 1 [ZMOD 4] ∨ d ≡ 2 [ZMOD 4] ∨ d ≡ 3 [ZMOD 4] := by
   sorry
-
-local notation3 "R" => QuadraticAlgebra ℤ d 0
 
 lemma easy_incl : IsIntegral ℤ (algebraMap R K ω) := by
   sorry
@@ -92,5 +92,44 @@ theorem d_2_or_3 (hd : d ≡ 2 [ZMOD 4] ∨ d ≡ 3 [ZMOD 4]) : IsIntegralClosur
   sorry
 
 end d_2_3
+
+section d_1
+
+variable [Fact (d ≡ 1 [ZMOD 4])]
+
+local notation3 "e" => (d - 1) / 4
+
+lemma e_spec : 4 * e = d - 1 := by
+  sorry
+
+local notation3 "S" => QuadraticAlgebra ℤ e 1
+
+lemma algebra_R_S : (2 * (ω : S) - 1) * (2 * ω - 1) = d • 1 + 0 • ((2 * ω - 1)) := by
+  calc (2 * (ω : S) - 1) * (2 * ω - 1) = 4 * (ω * ω) - 4 * ω + 1 := by ring
+       _ = ↑(4 * e) + 1 := by grind [omega_mul_omega_eq_add]
+       _ = ↑(d - 1) + 1 := by rw [e_spec]
+       _ = d • 1 + 0 • (2 * ω - 1) := by simp
+
+instance : Algebra R S := (lift ⟨2 * ω - 1, algebra_R_S⟩).toRingHom.toAlgebra
+
+lemma algebra_S_K : ((1 + (ω : K)) / 2) * ((1 + ω) / 2) = e • 1 + 1 • ((1 + ω) / 2) := by
+  sorry
+
+instance : Algebra S K := (lift ⟨(1 + ω) / 2, algebra_S_K⟩).toRingHom.toAlgebra
+
+instance commutes_R_S_K : IsScalarTower R S K := by
+  sorry
+
+lemma easy_incl_d_1 : IsIntegral ℤ (algebraMap S K ω) := by
+  sorry
+
+lemma d_1_int {a b : ℚ} (hz : IsIntegral ℤ (a + b • (ω : K))) (ha : ∃ (A : ℤ), A = a) :
+    a + b • (ω : K) ∈ range (algebraMap S K) := by
+  sorry
+
+theorem d_1 : IsIntegralClosure ℤ S K := by
+  sorry
+
+end d_1
 
 end QuadraticInteger
