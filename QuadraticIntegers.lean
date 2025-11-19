@@ -1,1 +1,3 @@
-import QuadraticIntegers.Example
+import QuadraticIntegers.Mathlib.QuadraticAlgebra
+import QuadraticIntegers.Mathlib.Squarefree
+import QuadraticIntegers.RingOfIntegers
