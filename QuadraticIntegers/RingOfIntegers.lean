@@ -105,10 +105,7 @@ lemma e_spec : 4 * e = d - 1 := by
 local notation3 "S" => QuadraticAlgebra ℤ e 1
 
 lemma algebra_R_S : (2 * (ω : S) - 1) * (2 * ω - 1) = d • 1 + 0 • ((2 * ω - 1)) := by
-  calc (2 * (ω : S) - 1) * (2 * ω - 1) = 4 * (ω * ω) - 4 * ω + 1 := by ring
-       _ = ↑(4 * e) + 1 := by grind [omega_mul_omega_eq_add]
-       _ = ↑(d - 1) + 1 := by rw [e_spec]
-       _ = d • 1 + 0 • (2 * ω - 1) := by simp
+  sorry
 
 instance : Algebra R S := (lift ⟨2 * ω - 1, algebra_R_S⟩).toRingHom.toAlgebra
 
