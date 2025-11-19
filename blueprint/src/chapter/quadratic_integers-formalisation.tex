@@ -193,12 +193,12 @@ We now suppose that $z \in \mathcal{O}_K$.
   \lean{QuadraticInteger.d_2_or_3}
   Assume that $d = 2 \bmod{4}$ or $d = 3 \bmod{4}$. Then
   \[
-  \mathcal{O}_K = \Z[\sqrt(d)]
+  \mathcal{O}_K = \Z[\sqrt{d}]
   \]
 \end{theorem}
 \begin{proof}
   \uses{easy_incl, a_not_int, d_congr, B_spec}
-  By Lemma \ref{easy_incl} we know that $\Z[\sqrt(d)] \subseteq \mathcal{O}_K$. Let $z = a + b \sqrt{d} \in \mathcal{O}_K$, with
+  By Lemma \ref{easy_incl} we know that $\Z[\sqrt{d}] \subseteq \mathcal{O}_K$. Let $z = a + b \sqrt{d} \in \mathcal{O}_K$, with
   $a, b \in \Q$. By Lemma \ref{a_not_int} we have that $a \in \Z$ (since by Lemma \ref{d_congr} we cannot have
   $d = 1 \bmod{4}$), and so by Lemma \ref{b_int_of_a_int} we have $b \in \Z$, so $z \in \Z[\sqrt{d}]$.
 \end{proof}
@@ -269,7 +269,7 @@ We write $S$ for the ring $\Z \left [ \frac{1+\sqrt{d}}{2} \right ]$, implemente
   \leanok
   \lean{QuadraticInteger.d_1_int}
   Take $z = a + b \sqrt{d} \in \mathcal{O}_K$ with $a, b \in \Q$.
-  If $a \in \Z$ then $t \in \Z\left[ \frac{1+\sqrt{d}}{2} \right]$.
+  If $a \in \Z$ then $z \in \Z\left[ \frac{1+\sqrt{d}}{2} \right]$.
 \end{lemma}
 \begin{proof}
   \uses{b_int_of_a_int}
@@ -287,12 +287,12 @@ We write $S$ for the ring $\Z \left [ \frac{1+\sqrt{d}}{2} \right ]$, implemente
 \begin{proof}
   \uses{easy_incl_d_1, d_1_int, t_spec}
   By Lemma \ref{easy_incl_d_1} we know that $\Z\left[ \frac{1+\sqrt{d}}{2} \right] \subseteq \mathcal{O}_K$.
-  Let $z = a + b \sqrt{d} \in \mathcal{O_K}$, with $a, b \in \Q$.
+  Let $z = a + b \sqrt{d} \in \mathcal{O}_K$, with $a, b \in \Q$.
   \begin{itemize}
     \item If $ a \in \Z$ we conclude by Lemma \ref{d_1_int}.
     \item If $a \notin \Z$, let us consider
   \[
-  z' = z - \frac{1+\sqrt{d}}{2} = a - \frac{1}{2} + \left( b - \frac{1}{2} \right) \sqrt{2} \in \mathcal{O}_K
+  z' = z - \frac{1+\sqrt{d}}{2} = a - \frac{1}{2} + \left( b - \frac{1}{2} \right) \sqrt{d} \in \mathcal{O}_K
   \]
   Since $2a \in \Z$ and $a \notin \Z$, we have that $a - \frac{1}{2} \in \Z$, so by Lemma \ref{d_1_int},
   we have that $z' \in \Z\left[ \frac{1+\sqrt{d}}{2} \right]$ and so $z \in \Z\left[ \frac{1+\sqrt{d}}{2} \right]$.
