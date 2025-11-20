@@ -18,7 +18,6 @@ local notation3 "K" => QuadraticAlgebra ℚ d 0
 local notation3 "R" => QuadraticAlgebra ℤ d 0
 
 instance field : Fact (∀ (r : ℚ), r ^2 ≠ d + 0 * r) := by
-  constructor
   sorry
 
 lemma d_congr : d ≡ 1 [ZMOD 4] ∨ d ≡ 2 [ZMOD 4] ∨ d ≡ 3 [ZMOD 4] := by
@@ -62,6 +61,10 @@ def n (hz : IsIntegral ℤ z) := (norm_int hz).choose
 lemma n_spec (hz : IsIntegral ℤ z) : n hz = a ^ 2 - d * b ^ 2 := (norm_int hz).choose_spec
 
 lemma four_n (hz : IsIntegral ℤ z) : 4 * n hz = (2 * a)^2 - d * (2 * b) ^ 2 := by
+  sorry
+
+lemma squarefree_mul {n : ℤ} {r : ℚ} (hn : Squarefree n) (hnr : ∃ (m : ℤ), n * r ^ 2 = m) :
+    ∃ (t : ℤ), t = r := by
   sorry
 
 lemma two_b_int (hz : IsIntegral ℤ z) : ∃ (B₂ : ℤ), B₂ = 2 * b := by
