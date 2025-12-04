@@ -1,4 +1,4 @@
-import Mathlib.Algebra.QuadraticAlgebra.Basic
+import QuadraticIntegers.Mathlib.Algebra.QuadraticAlgebra.Basic
 
 namespace QuadraticAlgebra
 

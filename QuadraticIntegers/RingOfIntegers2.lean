@@ -1,4 +1,4 @@
-import Mathlib.Algebra.QuadraticAlgebra.Basic
+import QuadraticIntegers.Mathlib.Algebra.QuadraticAlgebra.Basic
 import Mathlib.Algebra.Squarefree.Basic
 import Mathlib.Data.Int.ModEq
 import Mathlib.NumberTheory.NumberField.Basic
