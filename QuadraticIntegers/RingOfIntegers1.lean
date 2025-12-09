@@ -11,7 +11,7 @@ namespace QuadraticInteger
 
 open QuadraticAlgebra NumberField Set Polynomial Algebra
 
-variable {d : ℤ} [NeZero d] [d.natAbs.AtLeastTwo] [Fact (Squarefree d)]
+variable {d : ℤ} [NeZero d] [alt : d.natAbs.AtLeastTwo] [sf : Fact (Squarefree d)]
 
 local notation3 "K" => QuadraticAlgebra ℚ d 0
 
@@ -24,7 +24,23 @@ PROVIDED SOLUTION:
 Clear since we assume that $d$ is squarefree.
 -/
 instance field : Fact (∀ (r : ℚ), r ^2 ≠ d + 0 * r) := by
-  sorry
+ constructor
+ intro r h
+ rw [zero_mul, add_zero] at h
+ have foo : IsSquare d := by
+  rw [pow_two] at h
+  replace h : IsSquare (d : ℚ) := ⟨r,h.symm⟩
+  exact (@Rat.isSquare_intCast_iff d).mp h
+ rcases foo with ⟨s,hs⟩
+ have goo: s * s ∣ d := by exact dvd_of_eq hs.symm
+ have step := sf.out _ goo
+ have step2 : s * s = 1 := by exact Int.isUnit_mul_self step
+ rw [step2] at hs
+ have step3 := alt.prop
+ rw [hs] at step3
+ simp only [isUnit_one, Int.natAbs_of_isUnit, Nat.not_ofNat_le_one] at step3
+
+
 
 /--
 We have that $d = \pm 1 \bmod 4$ or $d = 2 \bmod 4$.
