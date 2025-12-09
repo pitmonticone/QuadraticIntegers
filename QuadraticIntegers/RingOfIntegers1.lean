@@ -2,6 +2,7 @@ import QuadraticIntegers.Mathlib.Algebra.QuadraticAlgebra.Basic
 import Mathlib.Algebra.Squarefree.Basic
 import Mathlib.Data.Int.ModEq
 import Mathlib.NumberTheory.NumberField.Basic
+import Mathlib.Tactic.ModCases
 
 import QuadraticIntegers.Mathlib.QuadraticAlgebra
 
@@ -48,8 +49,15 @@ We have that $d = \pm 1 \bmod 4$ or $d = 2 \bmod 4$.
 PROVIDED SOLUTION:
 If $d = 0 \bmod 4$ then $d$ would not be squarefree.
 -/
+
 lemma d_congr : d ≡ 1 [ZMOD 4] ∨ d ≡ 2 [ZMOD 4] ∨ d ≡ 3 [ZMOD 4] := by
-  sorry
+  have h_not_zero: ¬ d ≡ 0 [ZMOD 4] := by
+    intro h
+    have foo: 2 * 2 ∣ d := Int.modEq_zero_iff_dvd.mp h
+    have bar := sf.out _ foo
+    apply Int.isUnit_mul_self at bar
+    linarith
+  mod_cases d % 4 <;> tauto
 
 /--
 We have that $\sqrt{d}$ is an integral element of $K$.
