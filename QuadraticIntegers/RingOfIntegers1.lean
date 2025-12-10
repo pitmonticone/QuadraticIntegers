@@ -96,11 +96,12 @@ lemma rational_iff : z ∈ range (algebraMap ℚ K) ↔ b = 0 := by
   constructor
   · intro ⟨y, hy⟩
     obtain ⟨_, im_eq_im⟩ := QuadraticAlgebra.ext_iff.mp hy
-    have y_im_eq_0:= QuadraticAlgebra.im_coe («R» := ℚ) (a := (d : ℚ)) (b := 0) y
+    have im_eq_0 := QuadraticAlgebra.im_coe («R» := ℚ) (a := (d : ℚ)) (b := 0)
+    have y_im_eq_0 := im_eq_0 y
     simp [←coe_algebraMap] at y_im_eq_0
     rw [y_im_eq_0] at im_eq_im
     have : b = (z : K).im := by
-      have a_coe := QuadraticAlgebra.im_coe («R» := ℚ) (a := (d : ℚ)) (b := 0) a
+      have a_coe := im_eq_0 a
       simpa [←coe_algebraMap] using a_coe
     grind
   · intro h
