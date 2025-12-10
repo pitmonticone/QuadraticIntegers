@@ -66,18 +66,6 @@ lemma easy_incl : IsIntegral ℤ (algebraMap R K ω) := by
   apply IsIntegral.algebraMap
   exact IsIntegral.isIntegral ω
 
-/-
-  R = ℤ[√d]
-  K = ℚ[√d]
-  f : R → K
-  ω = √d
-  We look at f ω and prove that f ω is integral over ℤ
-  For any `t : K`, `x` is integrla over ℤ if there exists
-  (c_0 + c_1*x + ... + c_n*x^n) : R[X] such that
-  (f c_0 + (f c_1) * t + ... + (f c_n)*t^n)
-
--/
-
 section trace_and_norm
 
 variable {a b : ℚ}
@@ -107,6 +95,7 @@ lemma rational_iff : z ∈ range (algebraMap ℚ K) ↔ b = 0 := by
   · intro h
     simp [h]
 
+omit [NeZero d] in
 /--
 If $b \neq 0$ then the minimal polynomial of $z$ over $\Q$ is $$X^2-2aX+(a^2-db^2)$$.
 
@@ -116,7 +105,79 @@ Irreducibility follows by the fact that $P$ has a root that is irrational.
 The proof uses `rational_iff`.
 -/
 lemma minpoly (hb : b ≠ 0) : minpoly ℚ z = X ^ 2 - C (2 * a) * X + C (a ^ 2 - d * b ^ 2) := by
-  sorry
+  symm
+  apply minpoly.unique'
+  · monicity <;> grind
+  · simp
+    field_simp
+    ring_nf
+    calc (b • ω) ^ 2 - (d : K) * (b : K) ^ 2
+    _ = ((b : K) * ω) ^ 2 - (d : K) * (b : K) ^ 2 := by
+      simp
+      have : b • ω = (b : K) * ω := by
+        rw [←Rat.cast_smul_eq_qsmul K b ω]
+        rfl
+      grind
+    _ = (b : K) ^ 2 * ω ^ 2 - (d : K) * (b : K) ^ 2 := by grind
+    _ = (b : K) ^ 2 * d - (d : K) * (b : K) ^ 2 := by
+      have : (ω : K) ^ 2 = d := by
+        rw [pow_two]
+        simp [omega_mul_omega_eq_mk]
+        rfl
+      grind
+    _ = 0 := by ring
+  · intro q qdeg_lt_2
+    have : (X ^ 2 - C (2 * a) * X + C (a ^ 2 - (d : ℚ) * b ^ 2) : ℚ[X]).degree = 2 := by
+      compute_degree!
+    rw [this] at qdeg_lt_2
+    match h : q.degree with
+    | none => exact Or.inl (degree_eq_bot.mp h)
+    | some 0 =>
+      right
+      intro q_root
+      have : 0 < q.degree := by
+        have q_ne_0 : q ≠ 0 := by aesop
+        apply Polynomial.degree_pos_of_aeval_root («R» := ℚ) (S := K) («z» := z) q_ne_0
+        · exact q_root
+        · simp
+      have : q.degree < q.degree := by
+        calc q.degree
+        _ = 0 := h
+        _ < q.degree := this
+      exact (lt_self_iff_false q.degree).mp this
+    | some 1 =>
+      right
+      intro q_root
+      have := Polynomial.eq_X_add_C_of_degree_eq_one h
+      rw [this] at q_root
+      simp at q_root
+      have : z = -↑(q.coeff 0) / ↑q.leadingCoeff := by
+        have leading_ne_0 : q.leadingCoeff ≠ 0 :=
+          Polynomial.leadingCoeff_eq_zero_iff_deg_eq_bot (p := q) |>.not.mpr (by simp [h])
+        have : q.leadingCoeff * z = -(q.coeff 0) := by grind
+        have : (q.leadingCoeff * z) / (q.leadingCoeff) = -(q.coeff 0) / (q.leadingCoeff) := by
+          grind
+        simpa [leading_ne_0] using this
+      norm_cast at this
+      have : z ∈ range (algebraMap ℚ K) := by
+        simp
+        use -↑(q.coeff 0) / ↑q.leadingCoeff
+        exact this.symm
+      rw [rational_iff] at this
+      contradiction
+    | some (t + 2) =>
+      have q_ne_bot : q.degree ≠ ⊥ := by aesop
+      obtain ⟨n, hn⟩ : ∃n, q.degree = .some n := Option.ne_none_iff_exists'.mp q_ne_bot
+      have qnatdeg_eq_2 := natDegree_eq_of_degree_eq_some hn
+      have : n < 2 := by
+        calc n
+        _ = q.natDegree := by grind
+        _ < 2 := by
+          refine (natDegree_lt_iff_degree_lt ?_).mpr qdeg_lt_2
+          exact degree_ne_bot.mp q_ne_bot
+      simp [hn] at h
+      have : n = t + 1 + 1 := ENat.coe_inj.mp h
+      grind
 
 /--
 We have that the trace of $z$ is $2a$.
