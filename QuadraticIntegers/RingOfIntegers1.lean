@@ -27,6 +27,7 @@ Clear since we assume that $d$ is squarefree.
 instance field : Fact (∀ (r : ℚ), r ^2 ≠ d + 0 * r) := by
  constructor
  intro r h
+ have step3 := alt.prop
  rw [zero_mul, add_zero] at h
  have foo : IsSquare d := by
   rw [pow_two] at h
@@ -36,12 +37,7 @@ instance field : Fact (∀ (r : ℚ), r ^2 ≠ d + 0 * r) := by
  have goo: s * s ∣ d := by exact dvd_of_eq hs.symm
  have step := sf.out _ goo
  have step2 : s * s = 1 := by exact Int.isUnit_mul_self step
- rw [step2] at hs
- have step3 := alt.prop
- rw [hs] at step3
- simp only [isUnit_one, Int.natAbs_of_isUnit, Nat.not_ofNat_le_one] at step3
-
-
+ grind
 
 /--
 We have that $d = \pm 1 \bmod 4$ or $d = 2 \bmod 4$.
