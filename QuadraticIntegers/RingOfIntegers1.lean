@@ -62,7 +62,20 @@ PROVIDED SOLUTION:
 Clear since $\sqrt{d}$ is a root of $x^2-d$.
 -/
 lemma easy_incl : IsIntegral ℤ (algebraMap R K ω) := by
-  sorry
+  apply IsIntegral.algebraMap
+  exact IsIntegral.isIntegral ω
+
+/-
+  R = ℤ[√d]
+  K = ℚ[√d]
+  f : R → K
+  ω = √d
+  We look at f ω and prove that f ω is integral over ℤ
+  For any `t : K`, `x` is integrla over ℤ if there exists
+  (c_0 + c_1*x + ... + c_n*x^n) : R[X] such that
+  (f c_0 + (f c_1) * t + ... + (f c_n)*t^n)
+
+-/
 
 section trace_and_norm
 
@@ -77,7 +90,19 @@ PROVIDED SOLUTION:
 Clear.
 -/
 lemma rational_iff : z ∈ range (algebraMap ℚ K) ↔ b = 0 := by
-  sorry
+  simp
+  constructor
+  · intro ⟨y, hy⟩
+    obtain ⟨_, im_eq_im⟩ := QuadraticAlgebra.ext_iff.mp hy
+    have y_im_eq_0:= QuadraticAlgebra.im_coe («R» := ℚ) (a := (d : ℚ)) (b := 0) y
+    simp [←coe_algebraMap] at y_im_eq_0
+    rw [y_im_eq_0] at im_eq_im
+    have : b = (z : K).im := by
+      have a_coe := QuadraticAlgebra.im_coe («R» := ℚ) (a := (d : ℚ)) (b := 0) a
+      simpa [←coe_algebraMap] using a_coe
+    grind
+  · intro h
+    simp [h]
 
 /--
 If $b \neq 0$ then the minimal polynomial of $z$ over $\Q$ is $$X^2-2aX+(a^2-db^2)$$.
