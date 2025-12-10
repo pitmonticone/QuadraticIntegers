@@ -39,13 +39,13 @@ instance field : Fact (∀ (r : ℚ), r ^2 ≠ d + 0 * r) := by
  have step2 : s * s = 1 := by exact Int.isUnit_mul_self step
  grind
 
+omit [NeZero d] alt in
 /--
 We have that $d = \pm 1 \bmod 4$ or $d = 2 \bmod 4$.
 
 PROVIDED SOLUTION:
 If $d = 0 \bmod 4$ then $d$ would not be squarefree.
 -/
-
 lemma d_congr : d ≡ 1 [ZMOD 4] ∨ d ≡ 2 [ZMOD 4] ∨ d ≡ 3 [ZMOD 4] := by
   have h_not_zero: ¬ d ≡ 0 [ZMOD 4] := by
     intro h
@@ -55,6 +55,7 @@ lemma d_congr : d ≡ 1 [ZMOD 4] ∨ d ≡ 2 [ZMOD 4] ∨ d ≡ 3 [ZMOD 4] := by
     linarith
   mod_cases d % 4 <;> tauto
 
+omit [NeZero d] in
 /--
 We have that $\sqrt{d}$ is an integral element of $K$.
 
@@ -83,6 +84,7 @@ variable {a b : ℚ}
 
 local notation3 "z" => a + b • (ω : K)
 
+omit [NeZero d] in
 /--
 We have that $z \in \Q$ if and only if $b = 0$.
 
