@@ -456,6 +456,7 @@ variable [h : Fact (d ≡ 1 [ZMOD 4])]
 
 local notation3 "e" => (d - 1) / 4
 
+omit [NeZero d] alt sf in
 /--
 We have that $e$ is an integer and $4e = d - 1$.
 
