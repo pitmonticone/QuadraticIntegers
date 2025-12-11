@@ -551,7 +551,12 @@ Let $z = a + b \sqrt{d} \in \mathcal{O}_K$, with $a, b \in \Q$.
 This proof uses `easy_incl_d_1`, `d_1_int` and `t_spec`.
 -/
 theorem d_1 : IsIntegralClosure ℤ S K := by
-  sorry
+  constructor
+  · intro z₁ z₂ h
+    injection h with h₁ h₂
+    exact Rat.intCast_inj.mp h₁
+  · sorry
+
 
 end d_1
 
