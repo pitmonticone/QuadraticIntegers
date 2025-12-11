@@ -180,8 +180,16 @@ lemma minpoly (hb : b ≠ 0) : minpoly ℚ z = X ^ 2 - C (2 * a) * X + C (a ^ 2 
       have : n = t + 1 + 1 := ENat.coe_inj.mp h
       grind
 
+open IntermediateField
 
-open IntermediateField in
+omit [NeZero d] in
+lemma adjoin_z_eq_top (h : b ≠ 0): ℚ⟮z⟯ = ⊤ := by
+  apply (Field.primitive_element_iff_minpoly_natDegree_eq ℚ z).mpr
+  have := finrank_eq_two (d : ℚ) 0
+  rw [this, minpoly]
+  compute_degree!
+  assumption
+
 omit [NeZero d] in
 /--
 We have that the trace of $z$ is $2a$.
