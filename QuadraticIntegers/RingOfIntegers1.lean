@@ -235,6 +235,7 @@ lemma trace : trace ℚ K z = 2 * a := by
     rw [this]
     simp
 
+omit [NeZero d] in
 /--
 We have that the norm of $z$ is $a^2-db^2$.
 
@@ -292,6 +293,7 @@ We write $t$ (for trace) to denote $2a$ as an integer. Mathematically we have $t
 -/
 lemma t_spec (hz : IsIntegral ℤ z) : t hz = 2 * a := (trace_int hz).choose_spec
 
+omit [NeZero d] in
 /--
 We have that $a^2-db^2 \in \Z$.
 
@@ -308,11 +310,13 @@ lemma norm_int (hz : IsIntegral ℤ z) : ∃ (n : ℤ), n = a ^ 2 - d * b ^ 2 :=
 
 def n (hz : IsIntegral ℤ z) := (norm_int hz).choose
 
+omit [NeZero d] in
 /--
 We write $n$ (for norm) to denote $a^2-db^2$ as an integer. Mathematically we have $n = a^2-db^2$.
 -/
 lemma n_spec (hz : IsIntegral ℤ z) : n hz = a ^ 2 - d * b ^ 2 := (norm_int hz).choose_spec
 
+omit [NeZero d] in
 /--
 We have that $4n = (2a)^2 - d(2b)^2$.
 
@@ -462,6 +466,7 @@ lemma e_spec : 4 * e = d - 1 := by
 
 local notation3 "S" => QuadraticAlgebra ℤ e 1
 
+omit [NeZero d] alt sf in
 /--
 We have that $$\left(2 \left( \frac{1+\sqrt{d}}{2} \right) - 1 \right)^2 = d$$
 so that $S$ is an $R$-algebra.
