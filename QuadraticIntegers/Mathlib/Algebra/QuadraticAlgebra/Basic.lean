@@ -77,7 +77,7 @@ theorem omega_mul_coe_mul_mk (n x y : R) :
 
 theorem mk_eq_add_smul_omega (x y : R) :
     (⟨x, y⟩ : QuadraticAlgebra R a b) = x + y • (ω : QuadraticAlgebra R a b) := by
-  ext <;> simp
+  ext <;> simp [-coe_algebraMap]
 
 variable {A : Type*} [Ring A] [Algebra R A]
 
@@ -85,7 +85,7 @@ variable {A : Type*} [Ring A] [Algebra R A]
 theorem algHom_ext {f g : QuadraticAlgebra R a b →ₐ[R] A}
     (h : f ω = g ω) : f = g := by
   ext ⟨x, y⟩
-  simp [mk_eq_add_smul_omega, h, ← coe_algebraMap]
+  simp [mk_eq_add_smul_omega, h]
 
 /-- The unique `AlgHom` from `QuadraticAlgebra R a b` to an `R`-algebra `A`,
 constructed by replacing `ω` with the provided root.
@@ -126,7 +126,7 @@ def lift : { u : A // u * u = a • 1 + b • u } ≃ (QuadraticAlgebra R a b �
             _ = (z * w).re • 1 + (z * w).im • u := by
               simp
       commutes' r := by
-        simp [← Algebra.algebraMap_eq_smul_one] }
+        simp [← Algebra.algebraMap_eq_smul_one, ← coe_algebraMap] }
   invFun f := ⟨f (ω), by
     simp [← map_mul, omega_mul_omega_eq_add]
     ⟩
@@ -199,7 +199,8 @@ theorem norm_zero : norm (0 : QuadraticAlgebra R a b) = 0 := by simp [norm]
 theorem norm_one : norm (1 : QuadraticAlgebra R a b) = 1 := by simp [norm]
 
 @[simp]
-theorem norm_coe (r : R) : norm (r : QuadraticAlgebra R a b) = r ^ 2 := by simp [norm_def, pow_two]
+theorem norm_coe (r : R) : norm (r : QuadraticAlgebra R a b) = r ^ 2 := by
+  simp [norm_def, pow_two, -coe_algebraMap]
 
 @[simp]
 theorem norm_natCast (n : ℕ) : norm (n : QuadraticAlgebra R a b) = n ^ 2 := by
@@ -211,7 +212,7 @@ theorem norm_intCast (n : ℤ) : norm (n : QuadraticAlgebra R a b) = n ^ 2 := by
 
 theorem coe_norm_eq_mul_star (z : QuadraticAlgebra R a b) :
     ((norm z : R) : QuadraticAlgebra R a b) = z * star z := by
-  ext <;> simp [norm, star, mul_comm] <;> ring
+  ext <;> simp [norm, star, mul_comm, -coe_algebraMap] <;> ring
 
 @[simp]
 theorem norm_neg (x : QuadraticAlgebra R a b) : (-x).norm = x.norm := by

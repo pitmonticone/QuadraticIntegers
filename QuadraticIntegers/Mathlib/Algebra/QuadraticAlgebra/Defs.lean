@@ -427,8 +427,8 @@ theorem mul_coe_eq_smul (r : R) (x : QuadraticAlgebra R a b) :
     (x * r : QuadraticAlgebra R a b) = r • x := by
   rw [mul_comm, coe_mul_eq_smul r x]
 
-@[norm_cast, simp]
-theorem coe_algebraMap : ⇑(algebraMap R (QuadraticAlgebra R a b)) = coe := rfl
+@[simp]
+theorem coe_algebraMap : coe = ⇑(algebraMap R (QuadraticAlgebra R a b)) := rfl
 
 theorem smul_coe (r1 r2 : R) :
     r1 • (r2 : QuadraticAlgebra R a b) = ↑(r1 * r2) := by rw [coe_mul, coe_mul_eq_smul]
@@ -437,10 +437,10 @@ theorem coe_dvd_iff {r : R} {z : QuadraticAlgebra R a b} :
     (r : QuadraticAlgebra R a b) ∣ z ↔ r ∣ z.re ∧ r ∣ z.im := by
   constructor
   · rintro ⟨x, rfl⟩
-    simp [dvd_mul_right]
+    simp [dvd_mul_right, -coe_algebraMap]
   · rintro ⟨⟨r, hr⟩, ⟨i, hi⟩⟩
     use ⟨r, i⟩
-    simp [QuadraticAlgebra.ext_iff, hr, hi]
+    simp [QuadraticAlgebra.ext_iff, hr, hi, -coe_algebraMap]
 
 @[simp, norm_cast]
 theorem coe_dvd_iff_dvd {z w : R} :
@@ -449,7 +449,7 @@ theorem coe_dvd_iff_dvd {z w : R} :
   constructor
   · rintro ⟨hx, -⟩
     simpa using hx
-  · simp
+  · simp [-coe_algebraMap]
 
 end CommSemiring
 
