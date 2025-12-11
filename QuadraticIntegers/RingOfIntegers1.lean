@@ -470,7 +470,13 @@ PROVIDED SOLUTION:
 Obvious by Lemma `e_spec`.
 -/
 lemma algebra_R_S : (2 * (ω : S) - 1) * (2 * ω - 1) = d • 1 + 0 • ((2 * ω - 1)) := by
-  sorry
+  rcases Int.modEq_iff_dvd.mp h.out with ⟨w,hw⟩
+  have s := omega_mul_omega_eq_add (a:=e) (b:=1)
+  ring_nf
+  rw [pow_two, s]
+  ring_nf
+  norm_cast
+  grind
 
 instance : Algebra R S := (lift ⟨2 * ω - 1, algebra_R_S⟩).toRingHom.toAlgebra
 
