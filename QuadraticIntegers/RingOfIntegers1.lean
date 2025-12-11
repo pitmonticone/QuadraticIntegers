@@ -6,6 +6,8 @@ import Mathlib.Tactic.ModCases
 
 import QuadraticIntegers.Mathlib.QuadraticAlgebra
 
+attribute [-instance] DivisionRing.toRatAlgebra
+
 suppress_compilation
 
 namespace QuadraticInteger
@@ -86,11 +88,11 @@ lemma rational_iff : z ∈ range (algebraMap ℚ K) ↔ b = 0 := by
     obtain ⟨_, im_eq_im⟩ := QuadraticAlgebra.ext_iff.mp hy
     have im_eq_0 := QuadraticAlgebra.im_coe («R» := ℚ) (a := (d : ℚ)) (b := 0)
     have y_im_eq_0 := im_eq_0 y
-    simp [←coe_algebraMap] at y_im_eq_0
+    simp at y_im_eq_0
     rw [y_im_eq_0] at im_eq_im
     have : b = (z : K).im := by
       have a_coe := im_eq_0 a
-      simpa [←coe_algebraMap] using a_coe
+      simpa using a_coe
     grind
   · intro h
     simp [h]
@@ -188,10 +190,6 @@ Otherwise this is clear by lemma `minpoly`.
 This proof uses `minpoly` and `field`.
 -/
 lemma trace : trace ℚ K z = 2 * a := by
-  by_cases h : b = 0
-  sorry
-
-  have := minpoly (d := d) (a := a) h
   sorry
 
 /--
@@ -203,7 +201,22 @@ Otherwise this is clear by lemma `minpoly`.
 This proof uses `minpoly` and `field`.
 -/
 lemma norm : norm ℚ z = a ^ 2 - d * b ^ 2 := by
-  sorry
+    by_cases h : b = 0
+    · have  hzeq : z = algebraMap ℚ K a := by simp [h]
+      have hnorma : (Algebra.norm ℚ) (algebraMap ℚ K a) = a ^ 2 := by
+        rw [Algebra.norm_algebraMap, finrank_eq_two]
+      rw [hzeq, hnorma, h]
+      ring
+    · have : adjoin ℚ {z} = ⊤ := sorry
+
+      have : (Algebra.norm ℚ) z =  (-1) ^ 2 * (a ^ 2 - d * b ^ 2) := by sorry
+      sorry
+
+
+      /-PowerBasis.norm_gen_eq_coeff_zero_minpoly
+        (pb : PowerBasis R S) :
+        norm R pb.gen = (-1) ^ pb.dim * coeff (minpoly R pb.gen) 0 -/
+
 
 section integrality
 
@@ -216,6 +229,7 @@ This proof uses `trace`.
 -/
 
 lemma trace_int (hz : IsIntegral ℤ z) : ∃ (t : ℤ), t = 2 * a := by
+  use (trace ℚ K z)
   rw [←trace (d := d) (b := b)]
   have : IsIntegral ℤ (Algebra.trace ℚ K z) := by
    refine @Algebra.isIntegral_trace ℤ _ ℚ _ K _ _ _ _ sorry sorry _ hz
