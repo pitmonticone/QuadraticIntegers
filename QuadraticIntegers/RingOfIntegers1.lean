@@ -444,7 +444,7 @@ end d_2_3
 
 section d_1
 
-variable [Fact (d ≡ 1 [ZMOD 4])]
+variable [h : Fact (d ≡ 1 [ZMOD 4])]
 
 local notation3 "e" => (d - 1) / 4
 
@@ -455,7 +455,10 @@ PROVIDED SOLUTION:
 It's obvious.
 -/
 lemma e_spec : 4 * e = d - 1 := by
-  sorry
+  refine Int.mul_ediv_cancel_of_emod_eq_zero ?_
+  cases h
+  apply Int.emod_eq_emod_iff_emod_sub_eq_zero.mp
+  assumption
 
 local notation3 "S" => QuadraticAlgebra ℤ e 1
 
