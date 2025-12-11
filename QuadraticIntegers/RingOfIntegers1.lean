@@ -368,6 +368,7 @@ lemma squarefree_mul {n : ℤ} {r : ℚ} (hn : Squarefree n) (hnr : ∃ (m : ℤ
 
   linarith
 
+omit [NeZero d] in
 /--
 We have that $2b \in \Z$.
 
@@ -385,11 +386,13 @@ lemma two_b_int (hz : IsIntegral ℤ z) : ∃ (B₂ : ℤ), B₂ = 2 * b := by
 
 def B₂ (hz : IsIntegral ℤ z) := (two_b_int hz).choose
 
+omit [NeZero d] in
 /--
 We write $B_2$ to denote $2b$ as an integer. Mathematically we have $B_2 = 2b$.
 -/
 lemma B₂_spec (hz : IsIntegral ℤ z) : B₂ hz = 2 * b := (two_b_int hz).choose_spec
 
+omit [NeZero d] in
 /--
 If $a \in \Z$ then $b \in \Z$.
 
@@ -407,6 +410,7 @@ lemma b_int_of_a_int (hz : IsIntegral ℤ z) (ha : ∃ (A : ℤ), A = a) : ∃ (
 
 def B (hz : IsIntegral ℤ z) (ha : ∃ (A : ℤ), A = a) := (b_int_of_a_int hz ha).choose
 
+omit [NeZero d] in
 /--
 If $a$ is an integer, we write $B$ to denote $b$ as an integer. Mathematically we have $B = b$.
 -/
