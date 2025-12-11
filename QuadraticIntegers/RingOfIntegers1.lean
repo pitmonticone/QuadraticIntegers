@@ -188,6 +188,10 @@ Otherwise this is clear by lemma `minpoly`.
 This proof uses `minpoly` and `field`.
 -/
 lemma trace : trace ℚ K z = 2 * a := by
+  by_cases h : b = 0
+  sorry
+
+  have := minpoly (d := d) (a := a) h
   sorry
 
 /--
@@ -211,16 +215,10 @@ Since the trace of an algebraic integer is an integers, this follows by lemma `t
 This proof uses `trace`.
 -/
 
-instance ist : IsScalarTower ℤ ℚ K :=
- by exact AddCommGroup.intIsScalarTower
-
-instance fd : FiniteDimensional ℚ K :=
- by apply QuadraticAlgebra.instFinite
-
 lemma trace_int (hz : IsIntegral ℤ z) : ∃ (t : ℤ), t = 2 * a := by
   rw [←trace (d := d) (b := b)]
-  have : IsIntegral ℤ (Algebra.trace ℚ K z) := by sorry -- apply Algebra.isIntegral_trace («R» := ℤ) (L := ℚ) (F := K)
-  sorry
+  have : IsIntegral ℤ (Algebra.trace ℚ K z) := by
+   refine @Algebra.isIntegral_trace ℤ _ ℚ _ K _ _ _ _ sorry sorry _ hz
 
 def t (hz : IsIntegral ℤ z) := (trace_int hz).choose
 
