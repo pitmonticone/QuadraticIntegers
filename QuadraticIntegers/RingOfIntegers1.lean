@@ -244,7 +244,9 @@ PROVIDED SOLUTION:
 Obvious by applying `n_spec`.
 -/
 lemma four_n (hz : IsIntegral ℤ z) : 4 * n hz = (2 * a)^2 - d * (2 * b) ^ 2 := by
-  sorry
+  simp [n_spec]
+  ring
+
 
 /--
 Let $n$ be a squarefree integer and let $r$ be a rational such that $b r^2$ is an integer.
