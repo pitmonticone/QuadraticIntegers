@@ -250,12 +250,16 @@ lemma norm : norm ℚ z = a ^ 2 - d * b ^ 2 := by
       rw [hzeq, hnorma, h]
       ring
     · have fact₁ : ℚ⟮z⟯ = ⊤ := adjoin_z_eq_top h
-      --have fact₂ : ℚ⟮z⟯ = (Algebra.adjoin ℚ ({z} : Set K)) :=
       let pb : PowerBasis ℚ K := by
         apply PowerBasis.ofAdjoinEqTop' (IsIntegral.isIntegral z)
-        exact
-        sorry
-      sorry
+        apply_fun IntermediateField.toSubalgebra at fact₁
+        simp at fact₁
+        rw [← fact₁]
+        refine Eq.symm (adjoin_simple_toSubalgebra_of_integral (IsIntegral.isIntegral z))
+      have h_z_eq_gen : z = pb.gen := by simp_all only [PowerBasis.ofAdjoinEqTop'_gen, pb]
+      rw [h_z_eq_gen, PowerBasis.norm_gen_eq_coeff_zero_minpoly pb, ← h_z_eq_gen, minpoly h,
+        ← PowerBasis.finrank, finrank_eq_two (d : ℚ) 0, coeff_zero_eq_eval_zero]
+      simp
 
       /-PowerBasis.norm_gen_eq_coeff_zero_minpoly
         (pb : PowerBasis R S) :
@@ -402,7 +406,9 @@ $a, b \in \Q$. By Lemma `a_not_int` we have that $a \in \Z$ (since by Lemma `d_c
 $d = 1 \bmod{4}$), and so by Lemma `b_int_of_a_int` we have $b \in \Z$, so $z \in \Z[\sqrt{d}]$.
 -/
 theorem d_2_or_3 (hd : d ≡ 2 [ZMOD 4] ∨ d ≡ 3 [ZMOD 4]) : IsIntegralClosure ℤ R K := by
-  sorry
+  constructor
+  · sorry
+  · sorry
 
 end d_2_3
 
