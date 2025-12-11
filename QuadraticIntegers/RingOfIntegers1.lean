@@ -8,6 +8,7 @@ import Mathlib.RingTheory.Norm.Transitivity
 import QuadraticIntegers.Mathlib.QuadraticAlgebra
 
 attribute [-instance] DivisionRing.toRatAlgebra
+
 suppress_compilation
 
 namespace QuadraticInteger
@@ -332,7 +333,36 @@ Easy.
 -/
 lemma squarefree_mul {n : ℤ} {r : ℚ} (hn : Squarefree n) (hnr : ∃ (m : ℤ), n * r ^ 2 = m) :
     ∃ (t : ℤ), t = r := by
-  sorry
+  rcases hnr with ⟨m,hm⟩
+  have h₁: (n * r^ 2 ).den = (m : ℚ).den := congrArg Rat.den hm
+  dsimp at h₁
+  have h := Rat.mul_num_den' n (r ^ 2)
+  simp [h₁] at h
+  have h₂ : (r.den ^ 2 : ℤ) ∣ ((n : ℤ) * r ^ 2).num * r.den ^ 2 := by
+   exact Int.dvd_mul_left ((n : ℤ) * r ^ 2).num (↑r.den ^ 2)
+  rw [h] at h₂
+
+  -- have h₃ : (r.den ^ 2 : ℤ).natAbs ∣ (((n : ℤ) * r ^ 2).num * r.den ^ 2).natAbs := by apply?
+
+  have red := r.reduced
+  have red₂ : r.den.Coprime r.num.natAbs := Nat.coprime_comm.mp red
+  clear red
+  have red₂ : (r.den ^ 2).Coprime (r.num.natAbs ^ 2) := Nat.pow_gcd_pow_of_gcd_eq_one red₂
+  rw [Eq.symm (Int.natAbs_pow r.num 2)] at red₂
+  have red₃ : IsCoprime (r.den ^2 : ℤ) (r.num ^2) :=
+    Int.isCoprime_iff_gcd_eq_one.mpr red₂
+  have H : (r.den ^2 : ℤ) ∣ n :=
+   Int.dvd_of_dvd_mul_left_of_gcd_one h₂ red₂
+  rw [pow_two] at H
+  apply hn at H
+  rw [Int.isUnit_iff] at H
+  rcases H with H | H
+
+  rw [←Rat.coe_int_num_of_den_eq_one (q := r)]
+  tauto
+  exact_mod_cast H
+
+  linarith
 
 /--
 We have that $2b \in \Z$.
