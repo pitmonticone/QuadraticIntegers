@@ -3,6 +3,7 @@ import Mathlib.Algebra.Squarefree.Basic
 import Mathlib.Data.Int.ModEq
 import Mathlib.NumberTheory.NumberField.Basic
 import Mathlib.Tactic.ModCases
+import Mathlib.RingTheory.Norm.Transitivity
 
 import QuadraticIntegers.Mathlib.QuadraticAlgebra
 
@@ -262,6 +263,7 @@ We write $t$ (for trace) to denote $2a$ as an integer. Mathematically we have $t
 -/
 lemma t_spec (hz : IsIntegral ℤ z) : t hz = 2 * a := (trace_int hz).choose_spec
 
+#synth IsIntegrallyClosedIn ℤ ℚ
 /--
 We have that $a^2-db^2 \in \Z$.
 
@@ -270,7 +272,11 @@ Since the norm of an algebraic integer is an integers, this follows by lemma `no
 This proof uses `norm`.
 -/
 lemma norm_int (hz : IsIntegral ℤ z) : ∃ (n : ℤ), n = a ^ 2 - d * b ^ 2 := by
-  sorry
+  have : IsIntegral ℤ (Algebra.norm ℚ z) := Algebra.isIntegral_norm ℚ hz
+  rw [norm, IsIntegrallyClosed.isIntegral_iff] at this
+  obtain ⟨y, hy⟩ := this
+  simp at hy
+  use y
 
 def n (hz : IsIntegral ℤ z) := (norm_int hz).choose
 
