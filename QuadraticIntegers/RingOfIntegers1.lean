@@ -7,7 +7,6 @@ import Mathlib.Tactic.ModCases
 import QuadraticIntegers.Mathlib.QuadraticAlgebra
 
 attribute [-instance] DivisionRing.toRatAlgebra
-
 suppress_compilation
 
 namespace QuadraticInteger
@@ -181,6 +180,18 @@ lemma minpoly (hb : b ≠ 0) : minpoly ℚ z = X ^ 2 - C (2 * a) * X + C (a ^ 2 
       have : n = t + 1 + 1 := ENat.coe_inj.mp h
       grind
 
+open IntermediateField
+
+omit [NeZero d] in
+
+lemma adjoin_z_eq_top (h : b ≠ 0): ℚ⟮z⟯ = ⊤ := by
+  apply (Field.primitive_element_iff_minpoly_natDegree_eq ℚ z).mpr
+  have := finrank_eq_two (d : ℚ) 0
+  rw [this, minpoly]
+  compute_degree!
+  assumption
+
+omit [NeZero d] in
 /--
 We have that the trace of $z$ is $2a$.
 
@@ -190,7 +201,37 @@ Otherwise this is clear by lemma `minpoly`.
 This proof uses `minpoly` and `field`.
 -/
 lemma trace : trace ℚ K z = 2 * a := by
-  sorry
+  by_cases h : b = 0
+  · subst h
+    have := trace_algebraMap (S := K) a
+    simp at this ⊢
+    rw [this]
+    have : Module.finrank ℚ K = 2 := by
+      exact finrank_eq_two (d : ℚ) 0
+    simp [this]
+  · rw [trace_eq_finrank_mul_minpoly_nextCoeff ℚ z,
+       minpoly (a := a) (b := b) (d := d) h]
+
+    set p := X ^ 2 - C (2 * a) * X + C (a ^ 2 - ↑d * b ^ 2) with p_def
+    have p_deg_2 : p.natDegree = 2 := by
+      rw [p_def]
+      compute_degree!
+
+    have := Polynomial.nextCoeff_of_natDegree_pos (p := p) (by simp [p_deg_2])
+    simp [this]
+    have p_coeff_eq_2a: p.coeff 1 = -(2 * a) := by
+      rw [p_def, coeff_add, coeff_C]
+      simp
+    simp [p_deg_2, p_coeff_eq_2a]
+
+    have : ℚ⟮z⟯ = ⊤ := by
+      apply (Field.primitive_element_iff_minpoly_natDegree_eq ℚ z).mpr
+      have := finrank_eq_two (d : ℚ) 0
+      rw [this, minpoly]
+      compute_degree!
+      assumption
+    rw [this]
+    simp
 
 /--
 We have that the norm of $z$ is $a^2-db^2$.
@@ -207,11 +248,13 @@ lemma norm : norm ℚ z = a ^ 2 - d * b ^ 2 := by
         rw [Algebra.norm_algebraMap, finrank_eq_two]
       rw [hzeq, hnorma, h]
       ring
-    · have : adjoin ℚ {z} = ⊤ := sorry
-
-      have : (Algebra.norm ℚ) z =  (-1) ^ 2 * (a ^ 2 - d * b ^ 2) := by sorry
+    · have fact₁ : ℚ⟮z⟯ = ⊤ := adjoin_z_eq_top h
+      --have fact₂ : ℚ⟮z⟯ = (Algebra.adjoin ℚ ({z} : Set K)) :=
+      let pb : PowerBasis ℚ K := by
+        apply PowerBasis.ofAdjoinEqTop' (IsIntegral.isIntegral z)
+        exact
+        sorry
       sorry
-
 
       /-PowerBasis.norm_gen_eq_coeff_zero_minpoly
         (pb : PowerBasis R S) :
@@ -228,11 +271,7 @@ Since the trace of an algebraic integer is an integers, this follows by lemma `t
 This proof uses `trace`.
 -/
 
-lemma trace_int (hz : IsIntegral ℤ z) : ∃ (t : ℤ), t = 2 * a := by
-  use (trace ℚ K z)
-  rw [←trace (d := d) (b := b)]
-  have : IsIntegral ℤ (Algebra.trace ℚ K z) := by
-   refine @Algebra.isIntegral_trace ℤ _ ℚ _ K _ _ _ _ sorry sorry _ hz
+lemma trace_int (hz : IsIntegral ℤ z) : ∃ (t : ℤ), t = 2 * a := by sorry
 
 def t (hz : IsIntegral ℤ z) := (trace_int hz).choose
 
