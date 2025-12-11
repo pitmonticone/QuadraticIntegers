@@ -445,7 +445,9 @@ $d = 1 \bmod{4}$), and so by Lemma `b_int_of_a_int` we have $b \in \Z$, so $z \i
 -/
 theorem d_2_or_3 (hd : d ≡ 2 [ZMOD 4] ∨ d ≡ 3 [ZMOD 4]) : IsIntegralClosure ℤ R K := by
   constructor
-  · sorry
+  · intro z₁ z₂ h
+    injection h with h₁ h₂
+    exact Rat.intCast_inj.mp h₁
   · sorry
 
 end d_2_3
