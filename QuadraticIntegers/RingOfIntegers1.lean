@@ -343,7 +343,11 @@ divisible by $4$, so the same holds for $d(2b)^2$. In particular $db^2 \in \Z$ a
 Lemma `squarefree_mul` since $d$ is squarefree.
 -/
 lemma b_int_of_a_int (hz : IsIntegral ℤ z) (ha : ∃ (A : ℤ), A = a) : ∃ (B : ℤ), B = b := by
-  sorry
+  have := four_n hz
+  obtain ⟨A, hA⟩ := ha
+  apply squarefree_mul sf.out
+  use A ^ 2 - (n hz)
+  grind
 
 def B (hz : IsIntegral ℤ z) (ha : ∃ (A : ℤ), A = a) := (b_int_of_a_int hz ha).choose
 
