@@ -3,6 +3,7 @@ import Mathlib.Algebra.Squarefree.Basic
 import Mathlib.Data.Int.ModEq
 import Mathlib.NumberTheory.NumberField.Basic
 import Mathlib.Tactic.ModCases
+import Mathlib.RingTheory.Norm.Transitivity
 
 import QuadraticIntegers.Mathlib.QuadraticAlgebra
 
@@ -263,6 +264,7 @@ lemma norm : norm ℚ z = a ^ 2 - d * b ^ 2 := by
 
 section integrality
 
+omit [NeZero d] in
 /--
 We have that $2a \in \Z$.
 
@@ -270,11 +272,16 @@ PROVIDED SOLUTION:
 Since the trace of an algebraic integer is an integers, this follows by lemma `trace`.
 This proof uses `trace`.
 -/
-
-lemma trace_int (hz : IsIntegral ℤ z) : ∃ (t : ℤ), t = 2 * a := by sorry
+lemma trace_int (hz : IsIntegral ℤ z) : ∃ (t : ℤ), t = 2 * a := by
+  have : IsIntegral ℤ (Algebra.trace ℚ K z) := Algebra.isIntegral_trace hz
+  rw [trace, IsIntegrallyClosed.isIntegral_iff] at this
+  obtain ⟨y, hy⟩ := this
+  simp at hy
+  use y
 
 def t (hz : IsIntegral ℤ z) := (trace_int hz).choose
 
+omit [NeZero d] in
 /--
 We write $t$ (for trace) to denote $2a$ as an integer. Mathematically we have $t = 2a$.
 -/
@@ -288,7 +295,11 @@ Since the norm of an algebraic integer is an integers, this follows by lemma `no
 This proof uses `norm`.
 -/
 lemma norm_int (hz : IsIntegral ℤ z) : ∃ (n : ℤ), n = a ^ 2 - d * b ^ 2 := by
-  sorry
+  have : IsIntegral ℤ (Algebra.norm ℚ z) := Algebra.isIntegral_norm ℚ hz
+  rw [norm, IsIntegrallyClosed.isIntegral_iff] at this
+  obtain ⟨y, hy⟩ := this
+  simp at hy
+  use y
 
 def n (hz : IsIntegral ℤ z) := (norm_int hz).choose
 
@@ -328,7 +339,11 @@ we know that $d(2b)^2 \in \Z$. Since $d$ is squarefree, we conclude that $2b \in
 lemma `squarefree_mul`.
 -/
 lemma two_b_int (hz : IsIntegral ℤ z) : ∃ (B₂ : ℤ), B₂ = 2 * b := by
-  sorry
+  have := four_n hz
+  obtain ⟨y, hy⟩ := trace_int hz
+  apply squarefree_mul sf.out
+  use y ^ 2 - (4 * n hz)
+  grind
 
 def B₂ (hz : IsIntegral ℤ z) := (two_b_int hz).choose
 
@@ -346,7 +361,11 @@ divisible by $4$, so the same holds for $d(2b)^2$. In particular $db^2 \in \Z$ a
 Lemma `squarefree_mul` since $d$ is squarefree.
 -/
 lemma b_int_of_a_int (hz : IsIntegral ℤ z) (ha : ∃ (A : ℤ), A = a) : ∃ (B : ℤ), B = b := by
-  sorry
+  have := four_n hz
+  obtain ⟨A, hA⟩ := ha
+  apply squarefree_mul sf.out
+  use A ^ 2 - (n hz)
+  grind
 
 def B (hz : IsIntegral ℤ z) (ha : ∃ (A : ℤ), A = a) := (b_int_of_a_int hz ha).choose
 
