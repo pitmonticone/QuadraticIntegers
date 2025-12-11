@@ -246,6 +246,7 @@ lemma norm : norm ℚ z = a ^ 2 - d * b ^ 2 := by
 
 section integrality
 
+omit [NeZero d] in
 /--
 We have that $2a \in \Z$.
 
@@ -253,17 +254,21 @@ PROVIDED SOLUTION:
 Since the trace of an algebraic integer is an integers, this follows by lemma `trace`.
 This proof uses `trace`.
 -/
-
-lemma trace_int (hz : IsIntegral ℤ z) : ∃ (t : ℤ), t = 2 * a := by sorry
+lemma trace_int (hz : IsIntegral ℤ z) : ∃ (t : ℤ), t = 2 * a := by
+  have : IsIntegral ℤ (Algebra.trace ℚ K z) := Algebra.isIntegral_trace hz
+  rw [trace, IsIntegrallyClosed.isIntegral_iff] at this
+  obtain ⟨y, hy⟩ := this
+  simp at hy
+  use y
 
 def t (hz : IsIntegral ℤ z) := (trace_int hz).choose
 
+omit [NeZero d] in
 /--
 We write $t$ (for trace) to denote $2a$ as an integer. Mathematically we have $t = 2a$.
 -/
 lemma t_spec (hz : IsIntegral ℤ z) : t hz = 2 * a := (trace_int hz).choose_spec
 
-#synth IsIntegrallyClosedIn ℤ ℚ
 /--
 We have that $a^2-db^2 \in \Z$.
 
@@ -316,7 +321,11 @@ we know that $d(2b)^2 \in \Z$. Since $d$ is squarefree, we conclude that $2b \in
 lemma `squarefree_mul`.
 -/
 lemma two_b_int (hz : IsIntegral ℤ z) : ∃ (B₂ : ℤ), B₂ = 2 * b := by
-  sorry
+  have := four_n hz
+  obtain ⟨y, hy⟩ := trace_int hz
+  apply squarefree_mul sf.out
+  use y ^ 2 - (4 * n hz)
+  grind
 
 def B₂ (hz : IsIntegral ℤ z) := (two_b_int hz).choose
 
