@@ -211,7 +211,7 @@ By Lemma `easy_incl` we know that $\Z[\sqrt{d}] \subseteq \mathcal{O}_K$. Let $z
 $a, b \in \Q$. By Lemma `a_not_int` we have that $a \in \Z$ (since by Lemma `d_congr` we cannot have
 $d = 1 \bmod{4}$), and so by Lemma `b_int_of_a_int` we have $b \in \Z$, so $z \in \Z[\sqrt{d}]$.
 -/
-theorem d_2_or_3 (hd : d ≡ 2 [ZMOD 4] ∨ d ≡ 3 [ZMOD 4]) : IsIntegralClosure ℤ R K := by
+theorem d_2_or_3 (hd : d ≡ 2 [ZMOD 4] ∨ d ≡ 3 [ZMOD 4]) : IsIntegralClosure R ℤ K := by
   sorry
 
 end d_2_3

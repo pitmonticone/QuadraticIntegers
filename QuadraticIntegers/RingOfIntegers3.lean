@@ -91,7 +91,7 @@ end trace_and_norm
 
 section d_2_3
 
-theorem d_2_or_3 (hd : d ≡ 2 [ZMOD 4] ∨ d ≡ 3 [ZMOD 4]) : IsIntegralClosure ℤ R K := by
+theorem d_2_or_3 (hd : d ≡ 2 [ZMOD 4] ∨ d ≡ 3 [ZMOD 4]) : IsIntegralClosure R ℤ K := by
   sorry
 
 end d_2_3
