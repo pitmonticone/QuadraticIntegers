@@ -534,6 +534,7 @@ lemma algebra_R_S : (2 * (ω : S) - 1) * (2 * ω - 1) = d • 1 + 0 • ((2 * ω
 
 instance : Algebra R S := (lift ⟨2 * ω - 1, algebra_R_S⟩).toRingHom.toAlgebra
 
+omit [NeZero d] in
 /--
 We have that $$\left(\frac{1+\sqrt{d}}{2} \right)^2 = \left( \frac{1+\sqrt{d}}{2} \right) + e$$
 so that $K$ is an $S$-algebra.
@@ -542,19 +543,11 @@ PROVIDED SOLUTION:
 Obvious by Lemma `e_spec`.
 -/
 lemma algebra_S_K : ((1 + (ω : K)) / 2) * ((1 + ω) / 2) = e • 1 + 1 • ((1 + ω) / 2) := by
-  /- have := e_spec (h:=h)
-  have s := omega_mul_omega_eq_add (a:=e) (b:=1)
-  simp at s
-  have s₂ : (ω : K) * ω = (e : K) + ω := sorry
-  norm_num
-  ring_nf
-  field_simp
-  rw [pow_two, s₂]
-  ring_nf
-  -/
-  sorry
-
-
+  apply QuadraticAlgebra.ext_iff.mpr
+  erw [ show ( ( 1 + ω ) / 2 : QuadraticAlgebra ℚ ( d : ℚ ) 0 ) = ⟨ 1 / 2, 1 / 2 ⟩ from ?_ ] ; norm_num;
+  · rw [ Int.cast_div ] <;> norm_num ; ring;
+    exact h.1.symm.dvd
+  · erw [ div_eq_iff ] <;> norm_num [ QuadraticAlgebra.ext_iff ]
 
 instance : Algebra S K := (lift ⟨(1 + ω) / 2, algebra_S_K⟩).toRingHom.toAlgebra
 
