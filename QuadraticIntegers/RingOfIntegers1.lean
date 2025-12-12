@@ -551,6 +551,7 @@ lemma algebra_S_K : ((1 + (ω : K)) / 2) * ((1 + ω) / 2) = e • 1 + 1 • ((1 
 
 instance : Algebra S K := (lift ⟨(1 + ω) / 2, algebra_S_K⟩).toRingHom.toAlgebra
 
+omit [NeZero d] in
 /--
 The obvious diagram between $R$, $S$ and $K$ commutes.
 
@@ -558,7 +559,13 @@ PROVIDED SOLUTION:
 Clear by `algebra_R_S` and `algebra_S_K`.
 -/
 instance commutes_R_S_K : IsScalarTower R S K := by
-  sorry
+ constructor
+ intro x y z
+ simp [Algebra.smul_def];
+ rw [ mul_assoc ]
+ erw [ QuadraticAlgebra.lift_apply_apply ]
+ erw [ QuadraticAlgebra.lift_apply_apply ] ; norm_num ; ring
+ erw [ QuadraticAlgebra.lift_apply_apply ] ; norm_num
 
 /--
 We have that $\frac{1+\sqrt{d}}{2} \in \mathcal{O}_K$.
@@ -568,7 +575,12 @@ Clear since $\frac{1+\sqrt{d}}{2}$ is a root of $X^2 - X - e \in \Z[X]$.
 This proof uses `e_spec` and `algebra_S_K`.
 -/
 lemma easy_incl_d_1 : IsIntegral ℤ (algebraMap S K ω) := by
- sorry
+  by_contra h_not_int;
+  convert isIntegral_trans _ _;
+  any_goals tauto;
+  exact QuadraticAlgebra ℤ ( ( d - 1 ) / 4 ) 1;
+  all_goals try infer_instance;
+  exact isIntegral_algebraMap
 
 /--
 Take $z = a + b \sqrt{d} \in \mathcal{O}_K$ with $a, b \in \Q$.
