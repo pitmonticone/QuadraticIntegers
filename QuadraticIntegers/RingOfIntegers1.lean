@@ -567,6 +567,7 @@ instance commutes_R_S_K : IsScalarTower R S K := by
  erw [ QuadraticAlgebra.lift_apply_apply ] ; norm_num ; ring
  erw [ QuadraticAlgebra.lift_apply_apply ] ; norm_num
 
+omit [NeZero d] in
 /--
 We have that $\frac{1+\sqrt{d}}{2} \in \mathcal{O}_K$.
 
