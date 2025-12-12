@@ -483,11 +483,13 @@ By Lemma `easy_incl` we know that $\Z[\sqrt{d}] \subseteq \mathcal{O}_K$. Let $z
 $a, b \in \Q$. By Lemma `a_not_int` we have that $a \in \Z$ (since by Lemma `d_congr` we cannot have
 $d = 1 \bmod{4}$), and so by Lemma `b_int_of_a_int` we have $b \in \Z$, so $z \in \Z[\sqrt{d}]$.
 -/
-theorem d_2_or_3 (hd : d ≡ 2 [ZMOD 4] ∨ d ≡ 3 [ZMOD 4]) : IsIntegralClosure ℤ R K := by
+theorem d_2_or_3 (hd : d ≡ 2 [ZMOD 4] ∨ d ≡ 3 [ZMOD 4]) : IsIntegralClosure R ℤ K := by
   constructor
   · intro z₁ z₂ h
     injection h with h₁ h₂
-    exact Rat.intCast_inj.mp h₁
+    simp at h₁
+    simp at h₂
+    exact QuadraticAlgebra.ext h₁ h₂
   · sorry
 
 end d_2_3
@@ -540,7 +542,19 @@ PROVIDED SOLUTION:
 Obvious by Lemma `e_spec`.
 -/
 lemma algebra_S_K : ((1 + (ω : K)) / 2) * ((1 + ω) / 2) = e • 1 + 1 • ((1 + ω) / 2) := by
+  /- have := e_spec (h:=h)
+  have s := omega_mul_omega_eq_add (a:=e) (b:=1)
+  simp at s
+  have s₂ : (ω : K) * ω = (e : K) + ω := sorry
+  norm_num
+  ring_nf
+  field_simp
+  rw [pow_two, s₂]
+  ring_nf
+  -/
   sorry
+
+
 
 instance : Algebra S K := (lift ⟨(1 + ω) / 2, algebra_S_K⟩).toRingHom.toAlgebra
 
@@ -561,7 +575,7 @@ Clear since $\frac{1+\sqrt{d}}{2}$ is a root of $X^2 - X - e \in \Z[X]$.
 This proof uses `e_spec` and `algebra_S_K`.
 -/
 lemma easy_incl_d_1 : IsIntegral ℤ (algebraMap S K ω) := by
-  sorry
+ sorry
 
 /--
 Take $z = a + b \sqrt{d} \in \mathcal{O}_K$ with $a, b \in \Q$.
@@ -590,11 +604,18 @@ Let $z = a + b \sqrt{d} \in \mathcal{O}_K$, with $a, b \in \Q$.
 \end{itemize}
 This proof uses `easy_incl_d_1`, `d_1_int` and `t_spec`.
 -/
-theorem d_1 : IsIntegralClosure ℤ S K := by
+theorem d_1 : IsIntegralClosure S ℤ K := by
   constructor
   · intro z₁ z₂ h
     injection h with h₁ h₂
-    exact Rat.intCast_inj.mp h₁
+    simp at h₁
+    simp at h₂
+    match h₂ with
+    | .inl h =>
+        simp [h] at h₁
+        apply QuadraticAlgebra.ext h₁ h
+    | .inr h =>
+        sorry
   · sorry
 
 
