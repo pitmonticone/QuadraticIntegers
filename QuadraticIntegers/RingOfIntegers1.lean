@@ -417,6 +417,7 @@ If $a$ is an integer, we write $B$ to denote $b$ as an integer. Mathematically w
 lemma B_spec (hz : IsIntegral ℤ z) (ha : ∃ (A : ℤ), A = a) : B hz ha = b :=
   (b_int_of_a_int hz ha).choose_spec
 
+omit [NeZero d] in
 /--
 If $a \not\in \Z$ then $d = 1 \bmod{4}$.
 
@@ -426,7 +427,46 @@ we have $(2a)^2 = d(2b)^2 \bmod{4}$, so $2b$ must be odd and $d = 1 \bmod{4}$ as
 This proof uses `four_n`, `B₂_spec` and `two_b_int`.
 -/
 lemma a_not_int (hz : IsIntegral ℤ z) (ha : ¬∃ (A : ℤ), A = a) : d ≡ 1 [ZMOD 4] := by
-  sorry
+  have eq₁ : ∃ (t : ℤ), (2 * a)^2 = d * (2 * b)^2 + 4 * t := by
+    use n hz
+    grind [four_n]
+  obtain ⟨t, ht⟩ : ∃ (t : ℤ), 2 * a = t := by
+    have := trace_int hz
+    tauto
+  have todd : Odd t := by
+    contrapose! ha;
+    use t/2
+    rw [Int.cast_div] <;> grind
+  obtain ⟨B₂, hB₂⟩ : ∃ (B₂ : ℤ), 2 * b = B₂ := by
+    have := two_b_int hz;
+    tauto
+  have b2odd : Odd B₂ := by
+    obtain ⟨ m, hm ⟩ := eq₁
+    rw [ht, hB₂] at hm
+    norm_cast at hm
+    replace hm := congr_arg Odd hm
+    simp_all +decide [ parity_simps ]
+    have ⟨_,h⟩ := Int.odd_mul.mp hm
+    exact Int.Odd.of_mul_right h
+  have tmod1 : t^2 ≡ 1 [ZMOD 4] := by
+    obtain ⟨ k, rfl ⟩ := todd; ring_nf; norm_num [ Int.ModEq, Int.add_emod, Int.mul_emod ] ;
+  have B₂mod1 : B₂^2 ≡ 1 [ZMOD 4] := by
+    rcases b2odd with ⟨ k, rfl ⟩ ; ring_nf; norm_num [ Int.ModEq, Int.add_emod, Int.mul_emod ] ;
+  obtain ⟨ k, hk ⟩ := eq₁
+  rw [ht,hB₂] at hk
+  norm_cast at hk
+  have hk' :
+   t ^ 2  ≡ 1 [ZMOD 4] ↔  d * B₂ ^ 2 + 4 * k ≡ 1 [ZMOD 4]
+   := by grind
+  apply hk'.mp at tmod1
+  have : 4 * k ≡ 0 [ZMOD 4] := by
+   apply Int.modEq_zero_iff_dvd.mpr
+   grind
+  have foo: d * B₂ ^ 2 ≡ 1 [ZMOD 4] := by
+   exact Int.ModEq.add_right_cancel this tmod1
+  have goo : d * B₂ ^ 2 ≡ d * 1 [ZMOD 4] := by
+   exact Int.ModEq.mul_left d B₂mod1
+  grind [Int.ModEq.trans, Int.ModEq.symm]
 
 end integrality
 
