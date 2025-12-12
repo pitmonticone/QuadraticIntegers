@@ -564,7 +564,7 @@ instance commutes_R_S_K : IsScalarTower R S K := by
  simp [Algebra.smul_def];
  rw [ mul_assoc ]
  erw [ QuadraticAlgebra.lift_apply_apply ]
- erw [ QuadraticAlgebra.lift_apply_apply ] ; norm_num ; ring
+ erw [ QuadraticAlgebra.lift_apply_apply ] ; norm_num ; ring_nf
  erw [ QuadraticAlgebra.lift_apply_apply ] ; norm_num
 
 omit [NeZero d] in
@@ -583,6 +583,7 @@ lemma easy_incl_d_1 : IsIntegral ℤ (algebraMap S K ω) := by
   all_goals try infer_instance;
   exact isIntegral_algebraMap
 
+omit [NeZero d] in
 /--
 Take $z = a + b \sqrt{d} \in \mathcal{O}_K$ with $a, b \in \Q$.
 If $a \in \Z$ then $z \in \Z\left[ \frac{1+\sqrt{d}}{2} \right]$.
@@ -593,7 +594,23 @@ $z \in \Z[\sqrt{d}] \subseteq \Z\left[ \frac{1+\sqrt{d}}{2} \right]$.
 -/
 lemma d_1_int {a b : ℚ} (hz : IsIntegral ℤ (a + b • (ω : K))) (ha : ∃ (A : ℤ), A = a) :
     a + b • (ω : K) ∈ range (algebraMap S K) := by
-  sorry
+  obtain ⟨ B, hB ⟩ := b_int_of_a_int hz ha;
+  obtain ⟨ A, rfl ⟩ := ha;
+  -- Let $y = A - B + 2B\omega$.
+  use ⟨A - B, 2 * B⟩;
+  ext <;> norm_num;
+  · -- By definition of algebraMap, we have that the real part of the image is A - B + 2B.
+    simp [algebraMap];
+    -- By definition of algebraMap, we have that the real part of the image is A - B + 2B. Simplifying this gives A.
+    simp [Algebra.algebraMap];
+    erw [ show ( 2 : QuadraticAlgebra ℚ ( d : ℚ ) 0 ) = ( 2 : ℚ ) • 1 by ext <;> norm_num ] ; ring;
+    erw [ show ( 2 • ( 1 : QuadraticAlgebra ℚ ( d : ℚ ) 0 ) ) ⁻¹ = ( 1 / 2 : ℚ ) • 1 from ?_ ] ; norm_num ; ring;
+    exact inv_eq_of_mul_eq_one_right ( by ext <;> norm_num );
+  · erw [ QuadraticAlgebra.lift_apply_apply ] ; norm_num;
+    erw [ div_eq_mul_inv ] ; norm_num [ mul_assoc, mul_comm, mul_left_comm ];
+    simp +zetaDelta at *;
+    erw [ show ( { re := 2, im := 0 } : QuadraticAlgebra ℚ ( d : ℚ ) 0 ) ⁻¹ = ⟨ 1 / 2, 0 ⟩ by exact inv_eq_of_mul_eq_one_right <| by ext <;> norm_num ] ; norm_num
+    assumption
 
 /--
 We have $$\mathcal{O}_K = \Z\left[ \frac{1+\sqrt{d}}{2} \right]$$.
